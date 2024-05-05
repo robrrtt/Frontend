@@ -107,6 +107,7 @@ if (localStorage.getItem('token')) {
     </div>
   </div>
 </template>
+
 <style>
 .error {
   color: red;

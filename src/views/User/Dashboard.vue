@@ -1,38 +1,6 @@
-<script setup>
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-const logout = async () => {
-  try {
-    // Send logout request
-    await axios.post(
-      'http://127.0.0.1:8080/api/auth/logout',
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` // Add token to headers
-        }
-      }
-    )
-
-    // Remove token from localStorage
-    localStorage.removeItem('token')
-
-    // Redirect to the login page after successful logout
-    router.push({ name: 'loginpage' })
-  } catch (error) {
-    console.error('Logout error:', error.response.data)
-    // Optionally, handle errors here if needed
-  }
-}
-</script>
-
 <template>
   <div>
     <h1 class="">DashboardPage</h1>
-
     <button
       @click="logout"
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -40,108 +8,66 @@ const logout = async () => {
       Logout
     </button>
   </div>
-  <h1 class="text-3xl font-bold underline">Hello world!</h1>
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          <th scope="col" class="px-6 py-3">Product name</th>
-          <th scope="col" class="px-6 py-3">Color</th>
-          <th scope="col" class="px-6 py-3">Category</th>
-          <th scope="col" class="px-6 py-3">Price</th>
-          <th scope="col" class="px-6 py-3">Action</th>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full border-collapse table-auto">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="border border-gray-300 px-4 py-2">Name</th>
+          <th class="border border-gray-300 px-4 py-2">Author</th>
+          <th class="border border-gray-300 px-4 py-2">Publish Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-        >
-          <th
-            scope="row"
-            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Apple MacBook Pro 17"
-          </th>
-          <td class="px-6 py-4">Silver</td>
-          <td class="px-6 py-4">Laptop</td>
-          <td class="px-6 py-4">$2999</td>
-          <td class="px-6 py-4">
-            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Edit</a
-            >
-          </td>
-        </tr>
-        <tr
-          class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-        >
-          <th
-            scope="row"
-            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Microsoft Surface Pro
-          </th>
-          <td class="px-6 py-4">White</td>
-          <td class="px-6 py-4">Laptop PC</td>
-          <td class="px-6 py-4">$1999</td>
-          <td class="px-6 py-4">
-            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Edit</a
-            >
-          </td>
-        </tr>
-        <tr
-          class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-        >
-          <th
-            scope="row"
-            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Magic Mouse 2
-          </th>
-          <td class="px-6 py-4">Black</td>
-          <td class="px-6 py-4">Accessories</td>
-          <td class="px-6 py-4">$99</td>
-          <td class="px-6 py-4">
-            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Edit</a
-            >
-          </td>
-        </tr>
-        <tr
-          class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-        >
-          <th
-            scope="row"
-            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Google Pixel Phone
-          </th>
-          <td class="px-6 py-4">Gray</td>
-          <td class="px-6 py-4">Phone</td>
-          <td class="px-6 py-4">$799</td>
-          <td class="px-6 py-4">
-            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Edit</a
-            >
-          </td>
-        </tr>
-        <tr>
-          <th
-            scope="row"
-            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-          >
-            Apple Watch 5
-          </th>
-          <td class="px-6 py-4">Red</td>
-          <td class="px-6 py-4">Wearables</td>
-          <td class="px-6 py-4">$999</td>
-          <td class="px-6 py-4">
-            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Edit</a
-            >
-          </td>
+        <!-- Loop through each book in the books array -->
+        <tr v-for="book in books.data" :key="book.id" class="bg-white">
+          <td class="border border-gray-300 px-4 py-2">{{ book.name }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ book.author }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ book.publish_date }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
+
+<script setup>
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+
+const router = useRouter()
+
+const logout = async () => {
+  try {
+    await axios.post(
+      'http://127.0.0.1:8080/api/auth/logout',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+    )
+    localStorage.removeItem('token')
+    router.push({ name: 'loginpage' })
+  } catch (error) {
+    console.error('Logout error:', error.response.data)
+  }
+}
+
+const books = ref({ data: [] }) // Initialize as an object with a 'data' property
+
+const fetchBooks = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8080/api/auth/books')
+    books.value = response.data // Assign the response data directly to books
+    console.log('Books:', books.value)
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+
+onMounted(() => {
+  fetchBooks()
+})
+</script>
