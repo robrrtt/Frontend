@@ -54,8 +54,9 @@ if (localStorage.getItem('token')) {
         Sign in to your account
       </h2>
     </div>
-    <div v-if="form.error" class="error">{{ form.error }}</div>
-
+    <div class="flex items-center justify-between mt-2">
+      <div v-if="form.error" class="error">{{ form.error }}</div>
+    </div>
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" @submit.prevent="submit">
         <div>
@@ -100,16 +101,6 @@ if (localStorage.getItem('token')) {
           </button>
         </div>
       </form>
-      <div class="flex items-center justify-between mt-2">
-        <!-- FIX LOGIN ERROR POSSITION-->
-        <p v-if="error" class="text-red-500 mt-2">{{ error }}</p>
-      </div>
     </div>
   </div>
 </template>
-
-<style>
-.error {
-  color: red;
-}
-</style>
