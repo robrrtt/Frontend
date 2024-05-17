@@ -33,7 +33,6 @@ const submit = async () => {
     form.value.error = 'Login failed. Please check your credentials.'
   }
 }
-
 // Check if the token exists in localStorage
 if (localStorage.getItem('token')) {
   // Redirect to dashboard if token exists
